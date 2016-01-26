@@ -13,20 +13,43 @@ export class ConversationComponent extends Component {
         super(...args);
 
         this.state = {
-            logoIsAnchored: true,
             dataSource: ds.cloneWithRows(this.props.conversation.messages),
+            contentSize: {}
         };
     }
 
     componentWillReceiveProps(props) {
         this.setState({
             dataSource: ds.cloneWithRows(props.conversation.messages),
-        })
+        });
+    }
+
+    componentDidMount() {
+        setTimeout(this.scrollToBottom.bind(this));
+    }
+
+    componentDidUpdate() {
+        setTimeout(this.scrollToBottom.bind(this));
+    }
+
+    onContentSizeChange(width, height) {
+        this.setState({
+            contentSize: {
+                width,
+                height
+            }
+        });
+    }
+
+    scrollToBottom() {
+        this.refs.list.getScrollResponder().scrollTo(this.state.contentSize.height);
     }
 
     render() {
-        return <ListView style={ this.props.style }
+        return <ListView ref="list"
+                         style={ this.props.style }
                          dataSource={ this.state.dataSource }
+                         onContentSizeChange={ this.onContentSizeChange.bind(this) }
                          renderHeader={ props => <Text>
                                                      { this.props.ui.text.introText }
                                                  </Text> }
