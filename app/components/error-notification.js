@@ -2,8 +2,6 @@ import React, { Component } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { createMarkup } from '../utils/html';
-
 import { hideErrorNotification } from '../actions/app-state-actions';
 
 export class ErrorNotificationComponent extends Component {

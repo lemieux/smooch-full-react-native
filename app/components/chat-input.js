@@ -1,6 +1,7 @@
-import React, { View, Text, Platform, StyleSheet, TouchableHighlight, TouchableNativeFeedback, Component, TextInput } from 'react-native';
+import React, { View, Text, Platform, StyleSheet, Component, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { sendMessage, getReadTimestamp, updateReadTimestamp } from '../services/conversation-service';
+import { sendMessage } from '../services/conversation-service';
+import Button from 'apsl-react-native-button'
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row'
@@ -9,9 +10,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: {
-    },
-    buttonText: {
-        width: 50
+        borderColor: 'transparent',
+        height: 56,
+        width: 75
     }
 });
 
@@ -32,15 +33,15 @@ export class ChatInputComponent extends Component {
             this.setState({
                 text: ''
             });
-            sendMessage(text);
+            sendMessage(text).then(e => {
+                console.log(e)
+            }).catch(e => {
+                console.log(e)
+            });
         }
     }
 
     render() {
-        var TouchableElement = TouchableHighlight;
-        if (Platform.OS === 'android') {
-            TouchableElement = TouchableNativeFeedback;
-        }
         return (
             <View style={ styles.container }>
                 <TextInput placeholder={ this.props.ui.text.inputPlaceholder }
@@ -49,13 +50,9 @@ export class ChatInputComponent extends Component {
                                                   text
                                               }) }
                            value={ this.state.text } />
-                       <TouchableElement style={ styles.button } onPress={ this.onSendMessage } >
-                    <View>
-                        <Text style={ styles.buttonText }>
-                            { this.props.ui.text.sendButtonText }
-                        </Text>
-                    </View>
-                </TouchableElement>
+                <Button style={ styles.button } onPress={ this.onSendMessage }>
+                    { this.props.ui.text.sendButtonText }
+                </Button>
             </View>
             );
     }

@@ -1,9 +1,44 @@
-import React, { Component } from 'react-native';
+import React, { Component, View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ActionComponent } from './action';
 
-import { createMarkup, autolink, escapeHtml } from '../utils/html';
+const styles = {
+    user: {
+        bubble: {
+            backgroundColor: '#9200aa',
+            borderColor: '#76008a',
+            margin: 15,
+            padding: 15,
+            elevation: 1
+        },
+        text: {
+            color: '#ffffff'
+        }
+    },
+    maker: {
+        bubble: {
+            backgroundColor: '#ffffff',
+            marginLeft: 15,
+            marginRight: 15,
+            padding: 15,
+            elevation: 1,
+            flex: 1
+        },
+        avatar: {
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            flex: 1
+        },
+        text: {
+            color: '#212121'
+        },
+        from: {
+            marginLeft: 15
+        }
+    }
+};
 
 export class MessageComponent extends Component {
     render() {
@@ -12,45 +47,36 @@ export class MessageComponent extends Component {
         });
 
         const isAppUser = this.props.role === 'appUser';
+        let style = isAppUser ? styles.user : styles.maker;
 
-        let avatar = isAppUser ? null : (
-            <img className='sk-msg-avatar' src={ this.props.avatarUrl } />
-            );
-
-        let text = this.props.text.split('\n').map((item, index) => {
-            if (!item.trim()) {
-                return;
-            }
-
-
-            let innerHtml = createMarkup(autolink(escapeHtml(item), {
-                target: '_blank',
-                class: 'link'
-            }));
-
-            return <span key={ index }><span dangerouslySetInnerHTML={ innerHtml }></span>
-                   <br/>
-                   </span>;
-        });
-
-        if (this.props.actions.length > 0) {
-            text = <span className='has-actions'>{ text }</span>;
-        }
+        let avatar = isAppUser ? null : <Image style={ style.avatar } source={ {    uri: this.props.avatarUrl} } />;
+        let name = isAppUser ? null : <Text style={ style.from }>
+                                          { this.props.name }
+                                      </Text>;
 
         return (
-            <div className={ 'sk-row ' + (isAppUser ? 'sk-right-row' : 'sk-left-row') }>
+            <View>
+                { name }
+                <View style={ style.bubble }>
+                    <Text style={ style.text }>
+                        { this.props.text }
+                    </Text>
+                </View>
                 { avatar }
-                <div className='sk-msg-wrapper'>
-                    <div className='sk-from'>
-                        { isAppUser ? '' : this.props.name }
-                    </div>
-                    <div className='sk-msg'>
-                        { text }
-                        { actions }
-                    </div>
-                </div>
-                <div className='sk-clear'></div>
-            </div>
+            </View>
             );
+            // <div className={ 'sk-row ' + (isAppUser ? 'sk-right-row' : 'sk-left-row') }>
+            //     { avatar }
+            //     <div className='sk-msg-wrapper'>
+            //         <div className='sk-from'>
+            //             { isAppUser ? '' : this.props.name }
+            //         </div>
+            //         <div className='sk-msg'>
+            //             { text }
+            //             { actions }
+            //         </div>
+            //     </div>
+            //     <div className='sk-clear'></div>
+            // </div>
     }
 }

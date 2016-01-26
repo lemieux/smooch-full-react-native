@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
         flex: 1
     },
     conversation: {
-        backgroundColor: '#666'
     },
     footer: {
         height: 56,

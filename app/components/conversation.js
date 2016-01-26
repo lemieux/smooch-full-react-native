@@ -1,22 +1,27 @@
 import React, { Component, ListView, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import { createMarkup } from '../utils/html';
-
 import { MessageComponent } from './message';
+
+
+const ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2
+});
 
 export class ConversationComponent extends Component {
     constructor(...args) {
         super(...args);
 
-        var ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
-
         this.state = {
             logoIsAnchored: true,
             dataSource: ds.cloneWithRows(this.props.conversation.messages),
         };
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            dataSource: ds.cloneWithRows(props.conversation.messages),
+        })
     }
 
     render() {

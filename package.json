@@ -6,10 +6,13 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "apsl-react-native-button": "^2.4.0",
     "deep-equal": "^1.0.1",
+    "lodash.pick": "^4.0.0",
     "react-native": "^0.18.1",
     "react-redux": "^4.0.6",
     "redux": "^3.0.6",
-    "smooch-core": "0.0.14"
+    "smooch-core": "0.0.14",
+    "uuid": "^2.0.1"
   }
 }
