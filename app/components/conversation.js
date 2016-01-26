@@ -49,6 +49,7 @@ export class ConversationComponent extends Component {
         return <ListView ref="list"
                          style={ this.props.style }
                          dataSource={ this.state.dataSource }
+                         initialListSize={ this.props.conversation.messages.length }
                          onContentSizeChange={ this.onContentSizeChange.bind(this) }
                          renderHeader={ props => <Text>
                                                      { this.props.ui.text.introText }

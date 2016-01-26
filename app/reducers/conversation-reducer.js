@@ -2,21 +2,7 @@ import { ADD_MESSAGE, MESSAGES_CLEARED, SET_CONVERSATION, RESET_CONVERSATION } f
 import { RESET } from '../actions/common-actions';
 
 const INITIAL_STATE = {
-    messages: [
-        {
-            role: 'appUser',
-            text: 'hello',
-            actions: []
-        },
-
-            {
-                role: 'appMaker',
-                text: 'Hi there! How can I help you?',
-                name: 'The Dude',
-                avatarUrl: 'https://avatars3.githubusercontent.com/u/781844?v=3&u=0fdd9c8594cea1de7360b7491af7256cbcf74235',
-                actions: []
-            }
-    ]
+    messages: []
 };
 
 export function ConversationReducer(state = INITIAL_STATE, action) {
